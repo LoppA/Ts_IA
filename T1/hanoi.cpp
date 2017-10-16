@@ -203,6 +203,25 @@ int heur3 (vector<int> estado, int n, int m) {
 	return sum;
 }
 
+// calculates the heuristic cost
+// idea from: https://pt.linkedin.com/pulse/an%C3%A1lise-de-algoritmos-busca-na-resolu%C3%A7%C3%A3o-da-torre-penido-maia
+int heur4 (vector<int> estado, int n, int m) {
+	vector<int> peso(m, 0);
+	peso[m - 1] = 0;
+	peso[m - 2] = 2;
+
+	for (int i = m - 3; i >= 0; i--) {
+		peso[i] = peso[i+1] * 2;
+	}
+
+	int sum = 0;
+	for (unsigned long i = 0; i < estado.size(); i++) {
+		sum += (i + 1) * peso[estado[i]];
+	}
+	
+	return sum;
+}
+
 //executes A* to find shortest path to the final state
 vector<pair<int, int> > aStar (int n, int m, function<int(vector<int>, int, int)> heur) {
 	//maps to store movements tree and distances
@@ -302,6 +321,11 @@ int main (int argc, char * argv[]) {
 
 	printf ("N: %d, M: %d\n", n, m);
 
+	if (m < 3) {
+		printf ("M should be >= 3\n");
+		return 0;
+	}
+
 	vector<pair<int, int> > sol_deterministic;
 	if (m==3) {
 		time_diff = clock();
@@ -351,6 +375,14 @@ int main (int argc, char * argv[]) {
 	printf("%lf seconds\t", (double)time_diff/CLOCKS_PER_SEC);
 	//printSolution(sol_aStar_heur3);
 	printf ("sol.size(): %d\n", (int)sol_aStar_heur3.size());
+
+	time_diff = clock();
+	vector<pair<int, int> > sol_aStar_heur4 = aStar (n, m, &heur4);
+	time_diff = clock() - time_diff;
+	printf ("aStar (heur4):\t\t");
+	printf("%lf seconds\t", (double)time_diff/CLOCKS_PER_SEC);
+	//printSolution(sol_aStar_heur3);
+	printf ("sol.size(): %d\n", (int)sol_aStar_heur4.size());
 	
 	printf ("\n");
 
