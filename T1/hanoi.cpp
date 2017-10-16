@@ -128,7 +128,7 @@ int heur1 (vector<int> estado, int n, int m) {
 			sum += (aux_vect[i]) * 2;
 
 	// runs faster without it        ????
-	/* have to move all discs out of the last peg*/
+	// have to move all discs out of the last peg
 /*	bool heavier_in_last = (estado[n - 1] == (m - 1));
 	if (!heavier_in_last)
 		sum += (aux_vect[m - 1]) * 2;
@@ -144,10 +144,9 @@ int heur2 (vector<int> estado, int n, int m) {
 
 	int sum = 0;
 	for (int i = 0; i < m - 1; i++) {
-		if (aux_vect[i]) {
-			aux_vect[i]--;
-			sum++;
-
+		if (aux_vect[i] <= 1) {
+			sum += aux_vect[i];
+		} else {
 			int val = 2;
 			while (aux_vect[i]) {
 				int quant = min (aux_vect[i], m - 1);
@@ -158,6 +157,25 @@ int heur2 (vector<int> estado, int n, int m) {
 		}
 	}
 
+	// runs faster without it        ????
+	// have to move all discs out of the last peg
+/*
+	bool heavier_in_last = (estado[n - 1] == (m - 1));
+	if (!heavier_in_last) {
+		int i = m - 1;
+		if (aux_vect[i] <= 1) {
+			sum += aux_vect[i];
+		} else {
+			int val = 2;
+			while (aux_vect[i]) {
+				int quant = min (aux_vect[i], m - 1);
+				sum += quant * val;
+				aux_vect[i] -= quant;
+				val++;
+			}
+		}
+	}
+*/
 	return sum;
 }
 
