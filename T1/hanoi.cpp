@@ -153,17 +153,11 @@ int heur2 (vector<int> estado, int n, int m) {
 				int quant = min (aux_vect[i], m - 1);
 				sum += quant * val;
 				aux_vect[i] -= quant;
-				val += 2;
+				val++;
 			}
 		}
 	}
 
-	// Code runs faster without it        ????
-	/* have to move all discs out of the last peg*/
-/*	bool heavier_in_last = (estado[estado.size() - 1] == m - 1);
-	if (!heavier_in_last and aux_vect[m-1])
-		sum += (aux_vect[m - 1] - 1) * 2;
-*/
 	return sum;
 }
 
@@ -262,7 +256,7 @@ int main (int argc, char * argv[]) {
 	vector<pair<int, int> > sol;
 	clock_t time_diff;
 
-	n = 12;
+	n = 10;
 	m = 3;
 
 	if (m==3) {
